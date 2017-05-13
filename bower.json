@@ -1,6 +1,6 @@
 {
-  "name": "predix-webapp-starter",
-  "version": "^3.1.0",
+  "name": "balancer_frontend",
+  "version": "1.0.0",
   "private": true,
   "ignore": [
     "**/.*",

@@ -1,15 +1,13 @@
 ---
 applications:
-  - name: predix-webapp-starter
+  - name: balancer_frontend
     memory: 128M
     timeout: 180
     buildpack: nodejs_buildpack
     command: node server/app.js
     path: dist
-#services:
- # - your-name-uaa
- # - your-name-time-series
- # - your-name-asset
+services:
+  - balancer-uaa
 env:
     node_env: cloud
     uaa_service_label : predix-uaa
