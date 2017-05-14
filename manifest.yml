@@ -12,8 +12,8 @@ env:
     node_env: cloud
     uaa_service_label : predix-uaa
     # Add these values for authentication in the cloud
-    #base64ClientCredential: dWFhLWNsaWVudC1pZDp1YWEtY2xpZW50LWlkLXNlY3JldA==
-    #loginBase64ClientCredential: bG9naW5fY2xpZW50X2lkOnNlY3JldA==
+    base64ClientCredential: YmFsYW5jZXJfZnJvbnRlbmQ6YmFsYW5jZXJfZnJvbnRlbmQ=
+    loginBase64ClientCredential: YmFsYW5jZXJfZnJvbnRlbmQ6YmFsYW5jZXJfZnJvbnRlbmQ=
     # Use a full wss:// URL for actual web socket server. use /livestream for mock data.
     websocketServerURL: /livestream
     #rmdDatasourceURL: {URL of your RMD datasource microservice}
