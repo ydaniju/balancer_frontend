@@ -193,15 +193,14 @@ app.get('/config', function(req, res) {
 });
 
 app.get('/datasets/', function(req, res){
-  res.send("file");
-});
-
-app.get('/datasets/:id', function(req, res){
-  console.log('Hekknj');
   var file = __dirname + '/datasets/WT001.csv';
   res.download(file);
 });
 
+app.post("/datasets/", function (req, res) {
+    // Do whatever with the data
+    // Write it to a file etc...
+});
 // Sample route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
