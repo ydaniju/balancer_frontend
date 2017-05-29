@@ -6,7 +6,7 @@
 
 <dom-module id="datasets-view">
   <template>
-    <px-card id="myCard" header-text="Download training and test datasets">
+    <px-card id="dataCard" header-text="Download training and test datasets">
       <style is="custom-style">
         div.markdown-html > h2 {
           margin-top: 0;
@@ -17,7 +17,7 @@
           <div class="markdown-html"></div>
         </marked-element>      </div>
     </px-card>
-    <iron-ajax id="aboutContentAjaxEl" handle-as="text"></iron-ajax>
+    <iron-ajax id="datasetsContentAjaxEl" handle-as="text"></iron-ajax>
   </template>
   <script>
     Polymer({
@@ -25,13 +25,13 @@
       properties: {},
       ready: function() {
         var that = this;
-        this.$.aboutContentAjaxEl.url = "/datasets";
+        this.$.datasetsContentAjaxEl.url = "/datasets";
 
-        this.$.aboutContentAjaxEl.addEventListener('response', function(evt) {
+        this.$.datasetsContentAjaxEl.addEventListener('response', function(evt) {
           console.log(evt.detail);
           that.$.datasetsContentMarkdown.markdown = evt.detail.response;
         });
-        this.$.aboutContentAjaxEl.generateRequest();
+        this.$.datasetsContentAjaxEl.generateRequest();
       }
     });
   </script>
