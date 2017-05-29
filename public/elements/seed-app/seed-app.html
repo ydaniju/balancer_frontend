@@ -90,6 +90,16 @@
             element-href="/elements/views/simple-asset-view.html">
          </px-view>
 
+         <app-route
+            route="[[_route]]"
+            pattern="/datasets"
+            active="{{_datasetsActive}}">
+          </app-route>
+          <px-view
+            active="[[_datasetsActive]]"
+            element-href="/elements/views/datasets-view.html">
+         </px-view>
+
         </main>
 
       </div>
@@ -147,9 +157,9 @@
                 "icon": "fa-sitemap"
               },
               {
-                "label": "Datasets",
+                "label": "Download Datasets",
                 "path": "/datasets",
-                "icon": "fa-square"
+                "icon": "fa-download"
               }
             ]
           }
