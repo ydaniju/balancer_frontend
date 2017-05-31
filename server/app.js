@@ -194,7 +194,13 @@ app.get('/config', function(req, res) {
 
 app.get('/datasets/', function(req, res){
   var file = __dirname + '/datasets/WT001.csv';
-  res.download(file);
+  res.download(file, 'data.csv', function(err) {
+    if (err) {
+      console.log(res.headersSent);
+    } else {
+      console.log("download successful");
+    }
+  });
 });
 
 app.post("/datasets/", function (req, res) {

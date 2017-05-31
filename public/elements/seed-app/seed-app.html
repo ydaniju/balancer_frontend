@@ -184,7 +184,7 @@
         }
       },
 
-      observers: ['_routeChanged(_route)'],
+      // observers: ['_routeChanged(_route)'],
 
       ready: function(){
         this._checkForDefaultRoute();
@@ -202,17 +202,17 @@
         if((l.hash === "#/" || l.hash === "") && l.pathname === "/") {
           l.hash = "/rmd";
         }
-      },
-
-      _routeChanged: function(newRoute) {
-        console.log('new route:', newRoute);
-        if (newRoute.path !== '/rmd') {
-          var tsChart = document.querySelector('rmd-view timeseries-chart');
-          if (tsChart) {
-            tsChart.closeWebSocket();
-          }
-        }
       }
+
+      // _routeChanged: function(newRoute) {
+      //   console.log('new route:', newRoute);
+      //   if (newRoute.path !== '/rmd') {
+      //     var tsChart = document.querySelector('rmd-view timeseries-chart');
+      //     if (tsChart) {
+      //       tsChart.closeWebSocket();
+      //     }
+      //   }
+      // }
 
     });
   </script>
