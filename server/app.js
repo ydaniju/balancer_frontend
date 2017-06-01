@@ -159,13 +159,9 @@ SET UP MOCK API ROUTES
 // NOTE: these routes are added after the real API routes. 
 //  So, if you have configured asset, the real asset API will be used, not the mock API.
 // Import route modules
-var mockAssetRoutes = require('./routes/mock-asset.js')();
-var mockTimeSeriesRouter = require('./routes/mock-time-series.js');
-var mockRmdDatasourceRoutes = require('./routes/mock-rmd-datasource.js')();
+
 // add mock API routes.  (Remove these before deploying to production.)
-app.use(['/mock-api/predix-asset', '/api/predix-asset'], jsonServer.router(mockAssetRoutes));
-app.use(['/mock-api/predix-timeseries', '/api/predix-timeseries'], mockTimeSeriesRouter);
-app.use(['/mock-api/datagrid', '/api/datagrid'], jsonServer.router(mockRmdDatasourceRoutes));
+
 require('./routes/mock-live-data.js')(httpServer);
 // ***** END MOCK ROUTES *****
 
