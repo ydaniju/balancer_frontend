@@ -185,7 +185,7 @@ app.get('/config', function(req, res) {
   if (config.isAssetConfigured()) {
     title = "RMD Reference App";
   }
-  res.send({wsUrl: config.websocketServerURL, appHeader: title});
+  // res.send({wsUrl: config.websocketServerURL, appHeader: title});
 });
 
 app.get('/datasets/', function(req, res){

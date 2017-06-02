@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/byutv-jsonp/byutv-jsonp.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
 <link rel="import" href="../../bower_components/px-dropdown/px-dropdown-content.html">
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
@@ -21,7 +21,7 @@
 
     <!-- If RMD datasource is enabled, call that and pass data to the table. -->
     <px-card id="tableCard" style="padding-top: 15px">
-      <px-data-table table-data="{{seedTableData}}" hide-pagination-control="[[!showPagination]]">
+      <px-data-table table-data="[[seedTableData]]" hide-pagination-control="[[!showPagination]]">
         <px-data-table-column name="windDirection" label="Wind Direction" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
         <px-data-table-column name="windSpeed" label="Wind Speed" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
         <px-data-table-column name="hydraulicOilTemp" label="Hydraulic Oil Temp" hide="[[showAssetOnly]]"></px-data-table-column>
@@ -32,13 +32,15 @@
         <px-data-table-column name="powerDelta" label="Power Delta"></px-data-table-column>
       </px-data-table>
     </px-card>
-    <seed-table id="seedTable" rmd-data="{{rmdTableData}}"></seed-table>
-    <byutv-jsonp id="datatableAjaxEl"
-      url="https://balancer-ml.run.aws-usw02-pr.ice.predix.io"
+    <seed-table id="seedTable" rmd-data="[[rmdTableData]]"></seed-table>
+    <iron-ajax
+      url="http://0.0.0.0:8080"
+      id="datatableAjaxEl"
       handle-as="json"
+      debounce-duration="300"
       on-response="handleResponse"
     >
-    </byutv-jsonp>
+    </iron-ajax>
 
     <div id="refreshTableBtn"
       style="text-align: center; line-height: 26px; width: 28px; height: 28px; position: absolute; top: 18px; right: 20px; border: 1px solid #999; border-radius: 4px;">
@@ -55,11 +57,20 @@
       },
 
       ready: function () {
+        // console.log(this.$.datatableAjaxEl);
+        let url="https://balancer-ml.run.aws-usw02-pr.ice.predix.io"
+
+        this.$.datatableAjaxEl.addEventListener('response', function(evt) {
+          this.$.rmdTableData = evt.detail.response;
+          console.log( evt.detail.response);
+        }.bind(this));
+
         this.$.datatableAjaxEl.generateRequest();
+        // this.$.rmdTableData = this.$.datatableAjaxEl.parseResponse();
       },
 
       handleResponse: function (data) {
-        this.seedTableData = data.detail.response;
+        
       }
     });
   </script>
