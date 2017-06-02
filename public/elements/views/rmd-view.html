@@ -21,7 +21,7 @@
 
     <!-- If RMD datasource is enabled, call that and pass data to the table. -->
     <px-card id="tableCard" style="padding-top: 15px">
-      <px-data-table table-data="[[seedTableData]]" hide-pagination-control="[[!showPagination]]">
+      <px-data-table table-data="{{seedTableData}}" hide-pagination-control="[[!showPagination]]">
         <px-data-table-column name="windDirection" label="Wind Direction" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
         <px-data-table-column name="windSpeed" label="Wind Speed" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
         <px-data-table-column name="hydraulicOilTemp" label="Hydraulic Oil Temp" hide="[[showAssetOnly]]"></px-data-table-column>
@@ -32,7 +32,7 @@
         <px-data-table-column name="powerDelta" label="Power Delta"></px-data-table-column>
       </px-data-table>
     </px-card>
-    <seed-table id="seedTable" rmd-data="[[rmdTableData]]"></seed-table>
+
     <iron-ajax
       url="http://0.0.0.0:8080"
       id="datatableAjaxEl"
@@ -52,7 +52,7 @@
       is: 'rmd-view',
       properties: {
         seedTableData: {
-          type: Array
+          type: Object
         }
       },
 
@@ -61,12 +61,12 @@
         let url="https://balancer-ml.run.aws-usw02-pr.ice.predix.io"
 
         this.$.datatableAjaxEl.addEventListener('response', function(evt) {
-          this.$.rmdTableData = evt.detail.response;
-          console.log( evt.detail.response);
+          this.$.seedTableData = evt.detail.response;
+          console.log((this.$.seedTableData));
         }.bind(this));
 
         this.$.datatableAjaxEl.generateRequest();
-        // this.$.rmdTableData = this.$.datatableAjaxEl.parseResponse();
+        // this.$.seedTableData = this.$.datatableAjaxEl.parseResponse();
       },
 
       handleResponse: function (data) {
