@@ -78,6 +78,9 @@
         },
         kpiBarWrapperState: {
           type: String
+        },
+        apparentPowerPrediction: {
+          type: Object
         }
       },
 
@@ -100,15 +103,11 @@
         });
         return tags;
       },
-      _openedAssetChanged: function(newVal) {
-        console.log('asset opened:', newVal);
-        this.$.datatableAjaxEl.url = "/api/datagrid" + newVal.uri;
-        this.$.kpiBarAjaxEl.url = this.$.datatableAjaxEl.url + '/summary';
+      _openedAssetChanged: function(evt) {
+        console.log('asset opened:', evt);
+        this.$.datatableAjaxEl.url = "https://balancer-ml.run.aws-usw02-pr.ice.predix.io";
         this.$.datatableAjaxEl.generateRequest();
-        if (newVal.assetTag) {
-          this.displayTags = this._formatTagsForDisplay(newVal.assetTag);
-        }
-        this.showTimeseriesChart = newVal.uri.indexOf('asset') >= 0;
+        var data = evt.detail.response;
       },
       _assetModelChanged: function(newVal) {
         console.log('asset model changed:', newVal);
@@ -125,67 +124,13 @@
       },
 
       ready: function(){
-        this._loadFragment('tsChart', '/elements/timeseries-chart/timeseries-chart.html');
-        // set copy of 'this' for callback function use below
         var that = this;
-        // initialize refresh interval
-        this.refreshTimerInterval = 0;
-        this.wsUrl = document.querySelector('#rmdPxView').elementData.wsUrl;
-
-        this.$.kpiBarAjaxEl.addEventListener('response', function(evt) {
-          var data = evt.detail.response;
-          if (Array.isArray(data)) {
-            data = data[0];
-          }
-          var kpis = data.kpis, overall = data.overall;
-          this.kpiDatapoints = kpis;
-          this.kpiOverallLabel = overall.title;
-          this.kpiOverallValue = overall.percentage;
-          this.kpiOverallMax ="100";
-          this.kpiBarWrapperState = 'kpi-bar-wrapper-datareceived';
-        }.bind(this));
 
         this.$.datatableAjaxEl.addEventListener('response', function(evt) {
           this.rmdTableData = evt.detail.response;
-          this.$.kpiBarWrapperState = 'kpi-bar-wrapper-waiting';
-          this.$.kpiBarAjaxEl.generateRequest();
+          this.$.generateRequest();
 
         }.bind(this));
-
-        // Set refresh  button behavior
-        this.$.refreshTableBtn.addEventListener('click', function() {
-          console.log('sending request for rmdData');
-          that.$.datatableAjaxEl.generateRequest();
-        });
-
-        // Set refresh dropdown behavior
-        this.$.refreshFrequencyDropdown.addEventListener('px-dropdown-value-changed', function(evt){
-          var interval = 0;
-          switch (evt.detail.key) {
-            case '3':
-              interval = 3000;  // every 3 seconds
-              break;
-              case '15':
-                interval = 15000;  // every 3 seconds
-                break;
-            case '60':
-              interval = 60000;  // every 60 seconds
-              break;
-          }
-          clearInterval(that.refreshTimerInterval);
-
-          // If no refresh selected, clear any existing interval
-          if (interval === 0) {
-            that.refreshTimerInterval = 0;
-          }
-          // else set interval according to user selection
-          else {
-            that.refreshTimerInterval = setInterval(function() {
-              console.log('sending request for rmdData');
-              that.$.datatableAjaxEl.generateRequest();
-            }, interval);
-          }
-        });
       }
     });
   </script>

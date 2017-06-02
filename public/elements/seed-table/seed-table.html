@@ -13,15 +13,14 @@
     <template>
       <px-card id="tableCard" style="padding-top: 15px">
         <px-data-table table-data="{{seedTableData}}" hide-pagination-control="[[!showPagination]]">
-          <px-data-table-column name="time" type="html"></px-data-table-column>
-          <px-data-table-column name="Wind Direction" label="Wind Direction" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
-          <px-data-table-column name="Wind Speed" label="Wind Speed" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
-          <px-data-table-column name="Hydraulic Oil Temp" label="Hydraulic Oil Temp" hide="[[showAssetOnly]]"></px-data-table-column>
-          <px-data-table-column name="Ambient Temp" label="Ambient Temp" hide="[[showAssetOnly]]"></px-data-table-column>
-          <px-data-table-column name="Turbine Status" label="Turbine Status" hide="[[showAssetOnly]]"></px-data-table-column>
-          <px-data-table-column name="Expected Apparent Power" label="Expected Apparent Power"></px-data-table-column>
-          <px-data-table-column name="Current Apparent Power" label="Current Apparent Power"></px-data-table-column>
-          <px-data-table-column name="Power Delta" label="Power Delta"></px-data-table-column>
+          <px-data-table-column name="windDirection" label="Wind Direction" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
+          <px-data-table-column name="windSpeed" label="Wind Speed" type="html" hide="[[showAssetOnly]]"></px-data-table-column>
+          <px-data-table-column name="hydraulicOilTemp" label="Hydraulic Oil Temp" hide="[[showAssetOnly]]"></px-data-table-column>
+          <px-data-table-column name="ambientTemp" label="Ambient Temp" hide="[[showAssetOnly]]"></px-data-table-column>
+          <px-data-table-column name="turbineStatus" label="Turbine Status" hide="[[showAssetOnly]]"></px-data-table-column>
+          <px-data-table-column name="expectedApparentPower" label="Expected Apparent Power"></px-data-table-column>
+          <px-data-table-column name="currentApparentPower" label="Current Apparent Power"></px-data-table-column>
+          <px-data-table-column name="powerDelta" label="Power Delta"></px-data-table-column>
         </px-data-table>
       </px-card>
     </template>
@@ -55,16 +54,17 @@
 
       _formatRmdDataForTable: function(rmdData) {
         var rows = [], row, description, self = this;
+        console.log(this);
         rmdData.tableData.forEach(function(sensor) {
           row = {
-            "tag": self._getMeterHtml(sensor),
-            "alertStatus": self._getAlertHtml(sensor),
-            "currentValue": (typeof sensor.currentValue === "number") ? parseFloat(sensor.currentValue).toFixed(3): '',
-            "unit": sensor.unit,
-            "lastTagReading": moment(sensor.lastTagReading).format('YYYY-MM-DD HH:mm:ss ZZ'),
-            "thresholdMin": sensor.thresholdMin,
-            "thresholdMax": sensor.thresholdMax,
-            "deltaThreshold": self._getDeltaHtml(sensor)
+            "windDirection": self._getMeterHtml(sensor),
+            "windSpeed": self._getAlertHtml(sensor),
+            "hydraulicOilTemp": (typeof sensor.currentValue === "number") ? parseFloat(sensor.currentValue).toFixed(3): '',
+            "ambientTemp": sensor.unit,
+            "turbineStatus": moment(sensor.lastTagReading).format('YYYY-MM-DD HH:mm:ss ZZ'),
+            "expectedApparentPower": sensor.thresholdMin,
+            "currentApparentPower": sensor.thresholdMax,
+            "powerDelta": self._getDeltaHtml(sensor)
           }
           rows.push(row);
         });
